@@ -3,23 +3,22 @@ import java.util.Arrays;
 
 public class Main {
 
-    public static String codesample = "print 'hello world' 2.12 5.4";
+    public static String codesample = "print \"hello world\" 2.12 5.4";
 
     public static void main(String[] args) {
         ArrayList<Token> tokens = lex(codesample);
         System.out.println(Arrays.toString(tokens.toArray()));
     }
 
-    public static ArrayList<Token> lex(String str) {
+    public static ArrayList<Token> lex(String rawCode) {
         int pos = 0;
         ArrayList<Token> tokens = new ArrayList<>();
-        char[] code = str.toCharArray();
+        rawCode += "\n"; // pad
+        char[] code = rawCode.toCharArray();
         int total = code.length;
 
-        str = str + "\n"; // pad
-
         while (pos < total) {
-            char c = str.charAt(pos);
+            char c = rawCode.charAt(pos);
             System.out.println(c);
 
             switch (Character.getType(c)) {
@@ -43,6 +42,16 @@ public class Main {
                     pos++;
                     break;
 
+                case Character.OTHER_PUNCTUATION:
+                    if (c == '"') {
+                        String literal = LexStringLiteral(pos, code);
+                        tokens.add(new Token(Tok.STRING_LITERAL, literal));
+                        pos = pos + literal.length();
+                    } else {
+                        pos++;
+                    }
+                    break;
+
                 default:
                     pos++;
                     break;
@@ -52,27 +61,36 @@ public class Main {
         return tokens;
     }
 
-    private static String LexDigit(int pos, char[] code) {
+    private static String LexStringLiteral(int k, char[] chars) {
+        String literal = "";
+        while (chars[k] == '"') {
+            literal += chars[k];
+            k++;
+        }
+        return literal;
+    }
+
+
+    private static String LexDigit(int k, char[] chars) {
         String digits = "";
-        while (Character.isDigit(code[pos]) || code[pos] == '.') {
-            digits += code[pos];
-            pos++;
+        while (Character.isDigit(chars[k]) || chars[k] == '.') {
+            digits += chars[k];
+            k++;
         }
         return digits;
     }
 
-    public static String lexWord(int pos, char[] code) {
+    public static String lexWord(int k, char[] chars) {
         String word = "";
-
-        while (Character.isLetterOrDigit(code[pos])) {
-            word += code[pos];
-            pos++;
+        while (Character.isLetterOrDigit(chars[k])) {
+            word += chars[k];
+            k++;
         }
         return word;
     }
 
     public enum Tok {
-        WORD, STRING_LITERAL, DIGIT_LITERAL, SYMBOL
+        WORD, STRING_LITERAL, DIGIT_LITERAL
     }
 
     public static class Token {
