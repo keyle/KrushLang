@@ -3,7 +3,7 @@ import java.util.Arrays;
 
 public class Main {
 
-    public static String codesample = "print \"hello world\" 2.12 5.4";
+    public static String codesample = "print \'hello world\' 2.12 5.4";
 
     public static void main(String[] args) {
         ArrayList<Token> tokens = lex(codesample);
@@ -19,7 +19,7 @@ public class Main {
 
         while (pos < total) {
             char c = rawCode.charAt(pos);
-            System.out.println(c);
+            System.out.println("-- " + c);
 
             switch (Character.getType(c)) {
 
@@ -43,10 +43,10 @@ public class Main {
                     break;
 
                 case Character.OTHER_PUNCTUATION:
-                    if (c == '"') {
-                        String literal = LexStringLiteral(pos, code);
+                    if (c == '"' || c == '\'') {
+                        String literal = LexStringLiteral(pos, code, c);
                         tokens.add(new Token(Tok.STRING_LITERAL, literal));
-                        pos = pos + literal.length();
+                        pos = pos + literal.length() + 2;
                     } else {
                         pos++;
                     }
@@ -61,15 +61,15 @@ public class Main {
         return tokens;
     }
 
-    private static String LexStringLiteral(int k, char[] chars) {
+    private static String LexStringLiteral(int k, char[] chars, char c) {
         String literal = "";
-        while (chars[k] == '"') {
+        k++;
+        while (chars[k] != c) {
             literal += chars[k];
             k++;
         }
         return literal;
     }
-
 
     private static String LexDigit(int k, char[] chars) {
         String digits = "";
