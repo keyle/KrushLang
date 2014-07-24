@@ -2,16 +2,22 @@ import java.util.ArrayList;
 
 public class Lexer {
 
+    final static char RETURNCHAR = String.format("%n").charAt(0);
+    final static char DASH = '-';
+    final static char QUOTE = '\'';
+    final static char DQUOTE = '"';
+
     public static ArrayList<Token> lex(String rawCode) {
         int pos = 0;
         ArrayList<Token> tokens = new ArrayList<>();
-        rawCode += "\n"; // pad
+        rawCode = "\r\n" + rawCode + " \r\n"; // pad
         char[] code = rawCode.toCharArray();
         int total = code.length;
 
+        System.out.println(rawCode);
+
         while (pos < total) {
             char c = rawCode.charAt(pos);
-            System.out.println("-- " + c);
 
             switch (Character.getType(c)) {
 
@@ -28,23 +34,31 @@ public class Lexer {
                     pos = pos + digits.length();
                     break;
 
-                case Character.SPACE_SEPARATOR:
-                case Character.LINE_SEPARATOR:
-                case Character.PARAGRAPH_SEPARATOR:
-                    pos++;
-                    break;
-
                 case Character.OTHER_PUNCTUATION:
-                    if (c == '"' || c == '\'') {
+                    if (c == QUOTE || c == DQUOTE) {
                         String literal = LexStringLiteral(pos, code, c);
                         tokens.add(new Token(Token.Type.STRING_LITERAL, literal));
                         pos = pos + literal.length() + 2;
+                    } else if (c == ':') {
+                        if (code[pos + 1] == ':') {
+                            tokens.add(new Token(Token.Type.BEGIN_BLOCK, null));
+                            pos += 2;
+                        }
+                    } else if (c == '.') {
+                        tokens.add(new Token(Token.Type.DOT, null));
+                        pos++;
                     } else {
                         pos++;
                     }
                     break;
 
                 default:
+                    if (c == RETURNCHAR) {
+                        tokens.add(new Token(Token.Type.NEWLINE, null));
+                        pos++;
+                    } else if (c == DASH) {
+                        pos += lexLineComment(pos, code);
+                    }
                     pos++;
                     break;
             }
@@ -80,4 +94,14 @@ public class Lexer {
         }
         return word;
     }
+
+    public static int lexLineComment(int k, char[] chars) {
+        String comment = "";
+        while (chars[k] != RETURNCHAR) {
+            comment += chars[k];
+            k++;
+        }
+        return comment.length();
+    }
+
 }

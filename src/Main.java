@@ -1,20 +1,32 @@
+import com.sun.deploy.util.StringUtils;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Main {
 
-    // :main --
-    // print "hello world"
-    // set bla 3
-    // set bla "word"
-    // :main.loop item --
-    // print item
-    // --
-    // iter bla main.loop
-    // --
-    public static void main(String[] args) {
-        String codesample = "print \'hello world\' 2.12 5.4";
-        ArrayList<Token> tokens = Lexer.lex(codesample);
+    /*
+    */
+    public static void main(String[] args) throws IOException {
+
+        String codeString = "";
+
+        try {
+            Path path = Paths.get("test.txt");
+            List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+            codeString = StringUtils.join(lines, String.format("%n"));
+        } catch (IOException ignored) {
+            System.out.println("Oh dramas! File not found or encoding problem");
+        }
+
+        ArrayList<Token> tokens = Lexer.lex(codeString);
         System.out.println(Arrays.toString(tokens.toArray()));
     }
 }
+

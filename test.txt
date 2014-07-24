@@ -1,0 +1,5 @@
+class Utils
+
+def Utils.Hello :: println "Hello" -- this will print out "Hello", eventually.
+
+Utils.Hello

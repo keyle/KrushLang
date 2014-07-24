@@ -10,10 +10,14 @@ public class Token {
 
     @Override
     public String toString() {
-        return "[" + this.type.toString() + " " + this.content + "]";
+
+        if (this.content != null)
+            return "" + this.type.toString() + " '" + this.content + "'";
+        else
+            return "" + this.type.toString() + "";
     }
 
     public static enum Type {
-        WORD, STRING_LITERAL, DIGIT_LITERAL
+        WORD, STRING_LITERAL, DIGIT_LITERAL, NEWLINE, DOT, BEGIN_BLOCK
     }
 }
