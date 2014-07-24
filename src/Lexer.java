@@ -6,6 +6,8 @@ public class Lexer {
     final static char DASH = '-';
     final static char QUOTE = '\'';
     final static char DQUOTE = '"';
+    final static char DOT = '.';
+    final static char COLON = ':';
 
     public static ArrayList<Token> lex(String rawCode) {
         int pos = 0;
@@ -29,22 +31,22 @@ public class Lexer {
                     break;
 
                 case Character.DECIMAL_DIGIT_NUMBER:
-                    String digits = LexDigit(pos, code);
+                    String digits = lexDigit(pos, code);
                     tokens.add(new Token(Token.Type.DIGIT_LITERAL, digits));
                     pos = pos + digits.length();
                     break;
 
                 case Character.OTHER_PUNCTUATION:
                     if (c == QUOTE || c == DQUOTE) {
-                        String literal = LexStringLiteral(pos, code, c);
+                        String literal = lexStringLiteral(pos, code, c);
                         tokens.add(new Token(Token.Type.STRING_LITERAL, literal));
                         pos = pos + literal.length() + 2;
-                    } else if (c == ':') {
-                        if (code[pos + 1] == ':') {
+                    } else if (c == COLON) {
+                        if (code[pos + 1] == COLON) {
                             tokens.add(new Token(Token.Type.BEGIN_BLOCK, null));
                             pos += 2;
                         }
-                    } else if (c == '.') {
+                    } else if (c == DOT) {
                         tokens.add(new Token(Token.Type.DOT, null));
                         pos++;
                     } else {
@@ -67,7 +69,7 @@ public class Lexer {
         return tokens;
     }
 
-    private static String LexStringLiteral(int k, char[] chars, char c) {
+    private static String lexStringLiteral(int k, char[] chars, char c) {
         String literal = "";
         k++;
         while (chars[k] != c) {
@@ -77,7 +79,7 @@ public class Lexer {
         return literal;
     }
 
-    private static String LexDigit(int k, char[] chars) {
+    private static String lexDigit(int k, char[] chars) {
         String digits = "";
         while (Character.isDigit(chars[k]) || chars[k] == '.') {
             digits += chars[k];
