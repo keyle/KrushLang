@@ -1,0 +1,12 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    compile
+}
+dependencies {
+    //compile 'org.apache.commons.lang3:3.3.0'
+}
