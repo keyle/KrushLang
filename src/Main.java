@@ -15,14 +15,20 @@ public class Main {
     */
     public static void main(String[] args) throws IOException {
 
-        String codeString = "";
+        String codeString = null;
 
         try {
             Path path = Paths.get("test.txt");
             List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+            codeString = "";
             codeString = StringUtils.join(lines, String.format("%n"));
         } catch (IOException ignored) {
-            System.out.println("Oh dramas! File not found or encoding problem");
+            System.out.println("Oh poop! File not found, or encoding issues");
+        }
+
+        if (codeString == null) {
+            System.out.println("Could not parse file");
+            System.exit(0);
         }
 
         ArrayList<Token> rawTokens = Lexer.lex(codeString);
