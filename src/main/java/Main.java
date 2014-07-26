@@ -1,5 +1,3 @@
-import com.sun.deploy.util.StringUtils;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -19,7 +17,7 @@ public class Main {
             Path path = Paths.get("test.txt");
             List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
             codeString = "";
-            codeString = StringUtils.join(lines, String.format("%n"));
+//            codeString = StringUtils.join(lines, String.format("%n"));
         } catch (IOException ignored) {
             System.out.println("Oh poop! File not found, or encoding issues");
         }
