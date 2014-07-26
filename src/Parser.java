@@ -12,7 +12,7 @@ public class Parser {
 
             Token token = tokens.get(i);
 
-            if (token.type == Token.Type.WORD && token.content.equals(KEYWORD_CLASS)) {
+            if (token.type == Token.Type.CLASS_KEYWORD) {
                 findClasses(tokens, i);
             }
 
@@ -35,7 +35,7 @@ public class Parser {
         for (int i = k + 2; i < tokens.size(); i++) {
             Token token = tokens.get(i);
 
-            if (token.type == Token.Type.WORD && token.content.equals(KEYWORD_FUNCTION)) {
+            if (token.type == Token.Type.FUNC_KEYWORD) {
                 findFunctions(tokens, i);
             }
         }
@@ -51,11 +51,11 @@ public class Parser {
 
         int m = findNextTokenTypeFrom(Token.Type.WORD, tokens, k);
 
-        if (!tokens.get(m).content.equals(KEYWORD_FUNCTION)) {
-            crash(CLASS_UNKNOWN_WORD);
-        } else {
-
-        }
+//        if (!tokens.get(m).content.equals(KEYWORD_FUNCTION)) {
+//            crash(CLASS_UNKNOWN_WORD);
+//        } else {
+//
+//        }
     }
 
     public static int findNextTokenTypeFrom(Token.Type tokenType, ArrayList<Token> tokens, int k) {
