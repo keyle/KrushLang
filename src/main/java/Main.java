@@ -17,7 +17,7 @@ public class Main {
             Path path = Paths.get("test.txt");
             List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
             codeString = "";
-//            codeString = StringUtils.join(lines, String.format("%n"));
+            codeString = joinLines(lines);
         } catch (IOException ignored) {
             System.out.println("Oh poop! File not found, or encoding issues");
         }
@@ -32,6 +32,14 @@ public class Main {
         System.out.println(Arrays.toString(rawTokens.toArray()));
 
         Parser.syntaxicAnalysis(rawTokens);
+    }
+
+    public static String joinLines(List<String> lines) {
+        StringBuilder builder = new StringBuilder();
+        for (String line : lines) {
+            builder.append(line).append(String.format("%n"));
+        }
+        return builder.toString();
     }
 }
 
