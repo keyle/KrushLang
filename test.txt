@@ -2,8 +2,6 @@ class Utils {
 
 def bob 5;;
 
-bob
-
 -- def Utils.Hello { println "Hello" } -- this will print out "Hello", eventually.
 -- Utils.Hello
 
