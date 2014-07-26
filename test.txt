@@ -1,5 +1,10 @@
-class Utils ::
+class Utils {
 
-def Utils.Hello :: println "Hello" -- this will print out "Hello", eventually.
+def bob 5;;
 
-Utils.Hello
+bob
+
+-- def Utils.Hello { println "Hello" } -- this will print out "Hello", eventually.
+-- Utils.Hello
+
+}

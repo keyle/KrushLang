@@ -32,10 +32,10 @@ public class Main {
         }
 
         ArrayList<Token> rawTokens = Lexer.lex(codeString);
+
+        System.out.println(Arrays.toString(rawTokens.toArray()));
+
         ArrayList<Token> parseTokens1 = Parser.syntaxicAnalysis(rawTokens);
-
-
-        System.out.println(Arrays.toString(parseTokens1.toArray()));
     }
 }
 

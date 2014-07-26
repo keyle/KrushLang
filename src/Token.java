@@ -18,6 +18,6 @@ public class Token {
     }
 
     public static enum Type {
-        WORD, STRING_LITERAL, DIGIT_LITERAL, NEWLINE, DOT, BEGIN_BLOCK
+        WORD, STRING_LITERAL, DIGIT_LITERAL, NEWLINE, DOT, END_BLOCK, BEGIN_BLOCK
     }
 }

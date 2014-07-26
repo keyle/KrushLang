@@ -8,11 +8,13 @@ public class Lexer {
     final static char DQUOTE = '"';
     final static char DOT = '.';
     final static char COLON = ':';
+    final static char OPEN_CURLY = '{';
+    final static char CLOSE_CURLY = '}';
 
     public static ArrayList<Token> lex(String rawCode) {
         int pos = 0;
         ArrayList<Token> tokens = new ArrayList<>();
-        rawCode = "\r\n" + rawCode + " \r\n"; // pad
+        rawCode = "\r\n" + rawCode + " \r\n\r\n"; // pad
         char[] code = rawCode.toCharArray();
         int total = code.length;
 
@@ -41,11 +43,11 @@ public class Lexer {
                         String literal = lexStringLiteral(pos, code, c);
                         tokens.add(new Token(Token.Type.STRING_LITERAL, literal));
                         pos = pos + literal.length() + 2;
-                    } else if (c == COLON) {
-                        if (code[pos + 1] == COLON) {
-                            tokens.add(new Token(Token.Type.BEGIN_BLOCK, null));
-                            pos += 2;
-                        }
+//                    } else if (c == COLON) {
+//                        if (code[pos + 1] == COLON) {
+//                            tokens.add(new Token(Token.Type.BEGIN_BLOCK, null));
+//                            pos += 2;
+//                        }
                     } else if (c == DOT) {
                         tokens.add(new Token(Token.Type.DOT, null));
                         pos++;
@@ -60,6 +62,9 @@ public class Lexer {
                         pos++;
                     } else if (c == DASH) {
                         pos += lexLineComment(pos, code);
+                    } else if (c == OPEN_CURLY) {
+                        tokens.add(new Token(Token.Type.BEGIN_BLOCK, null));
+                        pos++;
                     }
                     pos++;
                     break;
