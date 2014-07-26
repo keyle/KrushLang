@@ -25,8 +25,11 @@ public class Main {
             System.out.println("Oh dramas! File not found or encoding problem");
         }
 
-        ArrayList<Token> tokens = Lexer.lex(codeString);
-        System.out.println(Arrays.toString(tokens.toArray()));
+        ArrayList<Token> rawTokens = Lexer.lex(codeString);
+        ArrayList<Token> parseTokens1 = Parser.syntaxicAnalysis(rawTokens);
+
+
+        System.out.println(Arrays.toString(parseTokens1.toArray()));
     }
 }
 
