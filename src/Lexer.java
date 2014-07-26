@@ -71,7 +71,7 @@ public class Lexer {
             }
         }
 
-        return tokens;
+        return convertKnownWords(tokens);
     }
 
     private static String lexStringLiteral(int k, char[] chars, char c) {
@@ -93,7 +93,7 @@ public class Lexer {
         return digits;
     }
 
-    public static String lexWord(int k, char[] chars) {
+    private static String lexWord(int k, char[] chars) {
         String word = "";
         while (Character.isLetterOrDigit(chars[k])) {
             word += chars[k];
@@ -102,7 +102,7 @@ public class Lexer {
         return word;
     }
 
-    public static int lexLineComment(int k, char[] chars) {
+    private static int lexLineComment(int k, char[] chars) {
         String comment = "";
         while (chars[k] != RETURNCHAR) {
             comment += chars[k];
@@ -111,4 +111,31 @@ public class Lexer {
         return comment.length();
     }
 
+    private static ArrayList<Token> convertKnownWords(ArrayList<Token> tokens) {
+
+        ArrayList<Token> results = new ArrayList<>();
+
+        tokens.forEach(t -> {
+            if (t.type.equals(Token.Type.WORD)) {
+
+                switch (t.content) {
+                    case "class":
+                        results.add(new Token(Token.Type.CLASS_KEYWORD, null));
+                        break;
+
+                    case "def":
+                        results.add(new Token(Token.Type.FUNC_KEYWORD, null));
+                        break;
+
+                    default:
+                        results.add(t);
+                        break;
+                }
+            } else {
+                results.add(t);
+            }
+        });
+
+        return results;
+    }
 }

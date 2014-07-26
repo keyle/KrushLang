@@ -35,7 +35,7 @@ public class Main {
 
         System.out.println(Arrays.toString(rawTokens.toArray()));
 
-        ArrayList<Token> parseTokens1 = Parser.syntaxicAnalysis(rawTokens);
+        Parser.syntaxicAnalysis(rawTokens);
     }
 }
 

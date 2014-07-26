@@ -2,13 +2,11 @@ import java.util.ArrayList;
 
 public class Parser {
 
-    public static final String KEYWORD_CLASS = "class";
-    public static final String KEYWORD_FUNCTION = "def";
-
     public static final String CLASS_MISSING_NAME = "Invalid Class Definition, <class Name> missing 'name'";
     public static final String CLASS_MISSING_BEGIN_BLOCK = "Missing Class Begin Block, '{' after class name";
+    public static final String CLASS_UNKNOWN_WORD = "Class should contain 'def' and not unknown words";
 
-    public static Object syntaxicAnalysis(ArrayList<Token> tokens) {
+    public static void syntaxicAnalysis(ArrayList<Token> tokens) {
 
         for (int i = 1; i < tokens.size() - 1; i++) {
 
@@ -20,8 +18,6 @@ public class Parser {
 
 //            tokens.add(tokens.get(i));
         }
-
-        return null;
     }
 
     public static ArrayList<ClassDef> findClasses(ArrayList<Token> tokens, int k) {
@@ -53,8 +49,13 @@ public class Parser {
 
         ArrayList<FunctionDef> functions = new ArrayList<>();
 
-        int index = findNextTokenTypeFrom(Token.Type.WORD, tokens, k);
+        int m = findNextTokenTypeFrom(Token.Type.WORD, tokens, k);
 
+        if (!tokens.get(m).content.equals(KEYWORD_FUNCTION)) {
+            crash(CLASS_UNKNOWN_WORD);
+        } else {
+
+        }
     }
 
     public static int findNextTokenTypeFrom(Token.Type tokenType, ArrayList<Token> tokens, int k) {
