@@ -1,4 +1,5 @@
+![travis-ci build](https://travis-ci.org/keyle/KrushLang.svg?branch=master)
 
-work in progress
+This is a work in progress.
 
 (MIT license)
