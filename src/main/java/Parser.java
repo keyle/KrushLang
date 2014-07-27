@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Parser {
 
@@ -15,17 +14,16 @@ public class Parser {
             Token token = tokens.get(i);
 
             if (token.type == Token.Type.CLASS_KEYWORD) {
-                ArrayList<ClassDef> classes = findClasses(tokens, i);
-                System.out.println(Arrays.toString(classes.toArray()));
+                ClassDef classDef = findClasses(tokens, i);
+                System.out.println(classDef);
             }
 
 //            tokens.add(tokens.get(i));
         }
     }
 
-    public static ArrayList<ClassDef> findClasses(ArrayList<Token> tokens, int k) {
+    public static ClassDef findClasses(ArrayList<Token> tokens, int k) {
 
-        ArrayList<ClassDef> classes = new ArrayList<>();
 
         if (tokens.get(k + 1).type != Token.Type.WORD) {
             crash(CLASS_MISSING_NAME);
@@ -45,9 +43,8 @@ public class Parser {
             }
         }
 
-        classes.add(c);
 
-        return classes;
+        return c;
     }
 
     public static ArrayList<FunctionDef> findFunctions(ArrayList<Token> tokens, int k) {
