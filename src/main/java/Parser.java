@@ -63,6 +63,18 @@ public class Parser {
         } else {
             String funcname = tokens.get(m).content;
             FunctionDef func = new FunctionDef(funcname);
+
+            for (int i = k + 2; i < tokens.size(); i++) {
+                Token token = tokens.get(i);
+
+                if (token.type == Token.Type.VAR_KEYWORD) {
+                    int z = findNextTokenTypeFrom(Token.Type.END_STATEMENT, tokens, i);
+                    StatementDef statem = new StatementDef();
+                    statem.tokens = new ArrayList<>(tokens.subList(i, z));
+                    func.statements.add(statem);
+                }
+            }
+
             functions.add(func);
         }
 
@@ -104,6 +116,7 @@ public class Parser {
     public static class FunctionDef {
 
         String name;
+        ArrayList<StatementDef> statements = new ArrayList<>();
 
         public FunctionDef(String name) {
             this.name = name;
@@ -111,7 +124,18 @@ public class Parser {
 
         @Override
         public String toString() {
-            return "<f " + this.name + ">";
+            return "<f " + this.name + "> \n\t" + statements.toString();
+        }
+    }
+
+    public static class StatementDef {
+
+        ArrayList<Token> tokens;
+        String statement;
+
+        @Override
+        public String toString() {
+            return "(s " + this.tokens.toString() + ")";
         }
     }
 }

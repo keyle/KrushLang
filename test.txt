@@ -1,11 +1,7 @@
 class Utils {
 
-var poo 5;
-
--- def counter 5;; -- next store the right side of the function
--- def item "an item";
-
--- def Utils.Hello { println "Hello" } -- this will print out "Hello", eventually.
--- Utils.Hello
+    def hello {
+        var counter 5;
+    }
 
 }
