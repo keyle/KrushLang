@@ -7,19 +7,21 @@ public class Parser {
     public static final String CLASS_UNKNOWN_WORD = "Class should contain 'def' and not unknown words";
     public static final String FUNC_MISSING_NAME = "Invalid Definition, <def Name> missing 'name'";
 
-    public static void syntaxicAnalysis(ArrayList<Token> tokens) {
+    public static ClassDef syntaxicAnalysis(ArrayList<Token> tokens) {
+
+        ClassDef classDef = null;
 
         for (int i = 1; i < tokens.size() - 1; i++) {
 
             Token token = tokens.get(i);
 
             if (token.type == Token.Type.CLASS_KEYWORD) {
-                ClassDef classDef = findClasses(tokens, i);
+                classDef = findClasses(tokens, i);
                 System.out.println(classDef);
             }
-
-//            tokens.add(tokens.get(i));
         }
+
+        return classDef;
     }
 
     public static ClassDef findClasses(ArrayList<Token> tokens, int k) {
