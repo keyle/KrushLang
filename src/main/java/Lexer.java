@@ -10,6 +10,7 @@ public class Lexer {
     final static char COLON = ':';
     final static char OPEN_CURLY = '{';
     final static char CLOSE_CURLY = '}';
+    final static char SEMICOLON = ';';
 
     public static ArrayList<Token> lex(String rawCode) {
         int pos = 0;
@@ -48,6 +49,9 @@ public class Lexer {
 //                            tokens.add(new Token(Token.Type.BEGIN_BLOCK, null));
 //                            pos += 2;
 //                        }
+                    } else if (c == SEMICOLON) {
+                        tokens.add(new Token(Token.Type.END_STATEMENT, null));
+                        pos++;
                     } else if (c == DOT) {
                         tokens.add(new Token(Token.Type.DOT, null));
                         pos++;
@@ -64,6 +68,9 @@ public class Lexer {
                         pos += lexLineComment(pos, code);
                     } else if (c == OPEN_CURLY) {
                         tokens.add(new Token(Token.Type.BEGIN_BLOCK, null));
+                        pos++;
+                    } else if (c == CLOSE_CURLY) {
+                        tokens.add(new Token(Token.Type.END_BLOCK, null));
                         pos++;
                     }
                     pos++;
@@ -125,6 +132,11 @@ public class Lexer {
 
                     case "def":
                         results.add(new Token(Token.Type.FUNC_KEYWORD, null));
+                        break;
+
+                    case "var":
+                        results.add(new Token(Token.Type.BEGIN_STATEMENT, null));
+                        results.add(new Token(Token.Type.VAR_KEYWORD, null));
                         break;
 
                     default:

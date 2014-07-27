@@ -8,6 +8,10 @@ public class Token {
         this.content = content;
     }
 
+    public Token() {
+
+    }
+
     @Override
     public String toString() {
 
@@ -18,6 +22,7 @@ public class Token {
     }
 
     public static enum Type {
-        WORD, STRING_LITERAL, DIGIT_LITERAL, NEWLINE, DOT, END_BLOCK, BEGIN_BLOCK, CLASS_KEYWORD, FUNC_KEYWORD,
+        WORD, STRING_LITERAL, DIGIT_LITERAL, NEWLINE, DOT, END_BLOCK, BEGIN_BLOCK, CLASS_KEYWORD, FUNC_KEYWORD, VAR_KEYWORD,
+        BEGIN_STATEMENT, END_STATEMENT
     }
 }

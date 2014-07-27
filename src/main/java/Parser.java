@@ -89,7 +89,7 @@ public class Parser {
     public static class ClassDef {
 
         String name;
-        ArrayList<FunctionDef> functions;
+        ArrayList<FunctionDef> functions = new ArrayList<>();
 
         public ClassDef(String name) {
             this.name = name;
